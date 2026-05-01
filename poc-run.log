@@ -1,0 +1,29 @@
+device: Intel(R) Data Center GPU Max 1550
+driver: 1.6.33578+42
+SYCL_LANGUAGE_VERSION = 202012
+__INTEL_LLVM_COMPILER = 20250302
+__VERSION__ = Intel(R) oneAPI DPC++/C++ Compiler 2025.3.2 (2025.3.2.20260112)
+subgroup width used = 16
+
+lane | src=lane/2 | expected | group_broadcast | select_from_group
+-----+------------+----------+-----------------+------------------
+   0  |     0      |    100   |       100       |        100
+   1  |     0      |    100   |       100       |        100
+   2  |     1      |    101   |       100       |        101
+   3  |     1      |    101   |       100       |        101
+   4  |     2      |    102   |       100       |        102
+   5  |     2      |    102   |       100       |        102
+   6  |     3      |    103   |       100       |        103
+   7  |     3      |    103   |       100       |        103
+   8  |     4      |    104   |       100       |        104
+   9  |     4      |    104   |       100       |        104
+  10  |     5      |    105   |       100       |        105
+  11  |     5      |    105   |       100       |        105
+  12  |     6      |    106   |       100       |        106
+  13  |     6      |    106   |       100       |        106
+  14  |     7      |    107   |       100       |        107
+  15  |     7      |    107   |       100       |        107
+
+select_from_group mismatches vs expected per-lane shuffle: 0 (should be 0)
+group_broadcast   mismatches vs per-lane shuffle:          14 (UB per spec; nonzero demonstrates wrong-result UB).
+group_broadcast result uniform across lanes? yes
